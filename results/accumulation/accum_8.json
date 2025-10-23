@@ -1,0 +1,12 @@
+{
+  "accumulation_steps": 8,
+  "effective_batch_size": 256,
+  "base_batch_size": 32,
+  "num_epochs": 1,
+  "train_losses": [
+    1.7377
+  ],
+  "epoch_times": [
+    3653.41
+  ]
+}

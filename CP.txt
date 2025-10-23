@@ -1,2 +1,0 @@
-Train Loss=2.7775, Val Loss=2.6213, Time=4242.16s, Memory=0.48GB : CP
-Train Loss=2.0136, Val Loss=2.2524, Time=3896.02s, Memory=0.60GB : NO_CP
