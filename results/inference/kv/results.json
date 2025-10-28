@@ -1,0 +1,16 @@
+{
+    "no_kv_cache": {
+        "total_tokens": 1000,
+        "elapsed_time": 0.5264892578125,
+        "tokens_per_second": 1899.373985624855,
+        "samples_per_second": 37.987479712497105
+    },
+    "with_kv_cache": {
+        "total_tokens": 1000,
+        "elapsed_time": 0.27487945556640625,
+        "tokens_per_second": 3637.958311360293,
+        "samples_per_second": 72.75916622720587
+    },
+    "speed_boost_ratio": 1.9153459713008965,
+    "timestamp": "2025-10-28 06:08:15"
+}

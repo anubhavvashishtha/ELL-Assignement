@@ -57,7 +57,7 @@ def evaluate_model(model, val_dataset, vocab, num_samples=50, prompt_length=5,
             prompt_text = vocab.decode(prompt_tokens)
             
             # Generate continuation using simple generate
-            generated = generate_simple(model, prompt_text, vocab, 
+            generated = generate(model, prompt_text, vocab, 
                                        max_length=max_generation_length,
                                        device=device)
             
@@ -96,7 +96,7 @@ def evaluate_model(model, val_dataset, vocab, num_samples=50, prompt_length=5,
     
     return results
 
-def generate_simple(model, prompt, vocab, max_length=50, device='cuda'):
+def generate(model, prompt, vocab, max_length=50, device='cuda'):
     """Simple generation without caching"""
     model.eval()
     

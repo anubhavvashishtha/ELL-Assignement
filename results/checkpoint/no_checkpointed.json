@@ -1,8 +1,7 @@
-
 {
-            "epoch": 1,
-            "train_loss": 2.0136,
-            "val_loss": 2.2524,
-            "time_seconds": 3896.02,
-            "peak_memory_gb": 0.60
+    "epoch": 1,
+    "train_loss": 2.0136,
+    "val_loss": 2.2524,
+    "time_seconds": 3896.02,
+    "peak_memory_gb": 0.60
 }
