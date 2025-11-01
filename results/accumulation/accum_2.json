@@ -4,9 +4,9 @@
   "base_batch_size": 32,
   "num_epochs": 1,
   "train_losses": [
-    2.217385045428458
+    2.2173
   ],
   "epoch_times": [
-    3851.38743019104
+    3851.38
   ]
 }

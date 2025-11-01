@@ -177,13 +177,3 @@ def calculate_perplexity(model, prompt_tokens, generated_tokens, device):
 #         device='cuda'
 #     )
     
-#     print("\n" + "="*50)
-#     print("EVALUATION RESULTS")
-#     print("="*50)
-#     print(f"Number of samples evaluated: {results['num_samples_evaluated']}")
-#     print(f"Average Perplexity: {results['avg_perplexity']:.4f}")
-#     print(f"BLEU Score: {results['bleu_score']:.4f}")
-#     print(f"BLEU Precisions: {results['bleu_details']['precisions']}")
-#     print(f"Brevity Penalty: {results['bleu_details']['brevity_penalty']:.4f}")
-#     print(f"Length Ratio: {results['bleu_details']['length_ratio']:.4f}")
-#     print("="*50)

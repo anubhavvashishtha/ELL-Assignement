@@ -1,7 +1,9 @@
 import torch
 import time
-import evaluate  # Hugging Face's evaluation library
-from typing import List
+import evaluate 
+import os
+import json
+import matplotlib.pyplot as plt
 from inference.inference import generate
 
 def beam_generate(model, prompt, vocab, max_length=50, beam_width=5, device='cuda'):
@@ -197,10 +199,6 @@ def get_validation_prompts_and_targets(val_loader, vocab, num_samples=20):
     
     return prompts, targets
 
-import os
-import json
-import matplotlib.pyplot as plt
-
 def save_beam_results(results, save_dir="results/inference/beam"):
     """
     Save beam search evaluation results and create comparative plots with proper spacing for labels.
@@ -271,8 +269,6 @@ def save_beam_results(results, save_dir="results/inference/beam"):
     print(f"   • {save_dir}/tokens_per_second.png")
     print(f"   • {save_dir}/avg_time.png")
     print(f"   • {save_dir}/bleu_score.png")
-
-
 
 def run_evaluation(model, vocab, val_prompts, val_targets):
     """
