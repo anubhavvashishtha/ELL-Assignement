@@ -289,3 +289,13 @@ def run_evaluation(model, vocab, val_prompts, val_targets):
     print("=" * 75)
 
     return results
+
+
+# results = run_evaluation(
+#     model=model,
+#     vocab=vocab,
+#     val_prompts=val_prompts,
+#     val_targets=val_targets
+# )
+
+# save_beam_results(results, save_dir="results/inference/beam")

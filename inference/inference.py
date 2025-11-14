@@ -158,7 +158,93 @@ def calculate_perplexity(model, prompt_tokens, generated_tokens, device):
     
     return perplexity
 
+def kv_generate(model, prompt, vocab, max_length=50, device='cuda', use_kv_cache=False):
+    """Generation with optional KV caching"""
+    model.eval()
+    
+    tokens = [vocab.word2idx[vocab.SOS_TOKEN]] + vocab.encode(prompt)
+    tokens_tensor = torch.tensor(tokens).unsqueeze(0).to(device)
+    
+    generated_tokens = []
+    kv_caches = None
+    
+    with torch.no_grad():
+        for step in range(max_length):
+            if tokens_tensor.size(1) >= model.max_seq_len:
+                break
+            
+            # For KV caching, we only process the last token after the first step
+            if use_kv_cache and step > 0:
+                # Only use the last token as input when using KV cache
+                input_tokens = tokens_tensor[:, -1:]
+            else:
+                # Use all tokens for first step or when not using KV cache
+                input_tokens = tokens_tensor
+            
+            # Forward pass
+            if use_kv_cache:
+                logits, new_kv_caches = model(input_tokens, kv_caches=kv_caches)
+                kv_caches = new_kv_caches
+            else:
+                logits, _ = model(input_tokens)
+            
+            # Sample next token
+            probs = torch.softmax(logits[:, -1, :], dim=-1)
+            next_token = torch.multinomial(probs, 1)
+            
+            if next_token.item() == vocab.word2idx[vocab.EOS_TOKEN]:
+                break
+            
+            # Append the new token
+            if use_kv_cache and step > 0:
+                tokens_tensor = torch.cat([tokens_tensor, next_token], dim=1)
+            else:
+                # For first step with KV cache or without KV cache, we already have all tokens
+                tokens_tensor = torch.cat([tokens_tensor, next_token], dim=1) if step == 0 else tokens_tensor
+            
+            generated_tokens.append(next_token.item())
+    
+    return {
+        'text': vocab.decode(tokens_tensor.squeeze(0).tolist()),
+        'tokens': generated_tokens
+    }
 
+def interactive_generation(model, vocab, device='cuda', max_length=50):
+    """Interactive text generation - type 'quit' to exit"""
+    
+    while True:
+        prompt = input("\nEnter prompt (or 'quit' to exit): ").strip()
+        
+        if prompt.lower() == 'quit':
+            print("\nExiting interactive generation. Goodbye!")
+            break
+        
+        if not prompt:
+            print("Please enter a valid prompt.")
+            continue
+        
+        print("\n" + "-"*70)
+        print(f"Prompt: {prompt}")
+        print("-"*70)
+        
+        try:
+            result = kv_generate(
+                model=model,
+                prompt=prompt,
+                vocab=vocab,
+                max_length=max_length,
+                device=device,
+                use_kv_cache=True
+            )
+            
+            print(f"\nGenerated text:\n{result['text']}")
+            print(f"\nTokens generated: {len(result['tokens'])}/{max_length}")
+            
+        except Exception as e:
+            print(f"\nError during generation: {str(e)}")
+            print("Please try again with a different prompt.")
+
+# Run with forced 50 token generation
 # # Example usage:
 # if __name__ == "__main__":
 #     # Load model, vocab, and validation dataset
